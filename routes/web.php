@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\SocialiteController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\RentLogController;
 use App\Http\Controllers\UserController;
@@ -68,6 +69,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('/dashboard/books', BookController::class)->middleware('only_admin');
 
     Route::resource('/dashboard/users', UserController::class)->middleware('only_admin');
+    Route::resource('/dashboard/categories', CategoryController::class)->middleware('only_admin');
 
     Route::resource('/rentLogs', RentLogController::class);
 

@@ -13,7 +13,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        return view('dashboard.category.index', [
+            'categories' => Category::all()
+        ]);
     }
 
     /**
@@ -21,7 +23,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('dashboard.category.create');
     }
 
     /**
@@ -29,7 +31,14 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request)
     {
-        //
+        $validatedData = $request->validate([
+            'name' => 'required|unique:categories|max:255',
+        ]);
+
+        Category::create($validatedData);
+
+
+        return redirect('/dashboard/categories');
     }
 
     /**
@@ -45,7 +54,9 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        return view('dashboard.category.edit', [
+            'category' => $category
+        ]);
     }
 
     /**
@@ -53,7 +64,18 @@ class CategoryController extends Controller
      */
     public function update(UpdateCategoryRequest $request, Category $category)
     {
-        //
+
+        if ($request->name !== $category->name) {
+            $validatedData = $request->validate([
+                'name' => 'required|unique:categories|max:255',
+            ]);
+        }
+
+
+        $category->name = $request->name;
+        $category->save();
+
+        return redirect('/dashboard/categories');
     }
 
     /**
@@ -61,6 +83,8 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $category->delete();
+
+        return redirect('/dashboard/categories');
     }
 }
